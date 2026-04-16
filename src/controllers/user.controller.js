@@ -7,24 +7,23 @@ import { ApiError } from '../utils/apiError.js';
      
 
 const registerUser = asyncHandler(async (req, res) => {
-   const {fullname, email, username, password} = req.body || {};
+   const {fullName, email, username, password} = req.body || {};
    console.log("email", email);
    
    if( 
-    [fullname, email, username, password].some((field) => !field || field.trim() === "")
+    [fullName, email, username, password].some((field) => !field || field.trim() === "")
    )
    {
     throw new ApiError(400, "All fields are required"); 
    }
     const existedUser = await User.findOne({
-        $or: [
-            {email},
-            {username}
-        ]
+        $or: [{ email },{ username }]   
+        
     });
     if(existedUser){
         throw new ApiError(409, "User with email or username already exists");
     }
+    console.log("req.files", req.files);
     const avatarLocalPath = req.files?.avatar?.[0]?.path;
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
     if(!avatarLocalPath){
@@ -41,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Failed to upload cover image");
 
          const user =await User.create({
-            fullName: fullname,
+            fullName: fullName,
             avatar: avatar.url,
             coverImage: coverImage?.url || "",
             email,

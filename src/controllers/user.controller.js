@@ -388,7 +388,7 @@ return res
         )
     )
     
-export {registerUser, loginUser, logoutUser, refreshAccessToken, 
+export {registerUser, loginUser, logoutUser, refreshAccessToken,
     changeCurentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar,
      updateUserCoverImage, getUserChannelProfile, getWatchHistory }
    
